@@ -1,7 +1,7 @@
 <?php
-	if(!isset($_POST['form_ajout_user_admin']) || !isset($_POST['nom'])
-		|| !isset($_POST['prenom']) || !isset($_POST['mdp']) || !isset($_POST['mdpverif'])
-		|| !isset($_POST['usager']) || !isset($_POST['adresse']) ){
+	if(!isset($_POST['form_ajout_user_admin'])
+		|| !isset($_POST['mdp']) || !isset($_POST['mdpverif'])
+		|| !isset($_POST['usager']) || !isset($_POST['adresse']) || !isset($_POST['email'])){
 		header("Location: index.php?context=admin_user&page=gerer");
 	}
 	if(Auth::Admin()){
@@ -11,9 +11,9 @@
 			return;
 		}
 		$pdo = new PDO(CONNECTIONSTRING, USER, PASSWORD);
-		$query = "INSERT INTO utilisateur (usager, mdp, nom, prenom, adresse, tokenemail, typeusager) VALUES (?,?,?,?,?,?,0)";
+		$query = "INSERT INTO utilisateur (usager, mdp, adresse, email, tokenemail, typeusager) VALUES (?,?,?,?,?,0);";
 		$statement = $pdo->prepare($query);
-		$b = $statement->execute(array($_POST['usager'], md5($_POST['mdp']), $_POST['nom'], $_POST['prenom'], $_POST['adresse'], md5($_POST['usager'])));
+		$b = $statement->execute(array($_POST['usager'], md5($_POST['mdp']), $_POST['adresse'], $_POST['email'], md5($_POST['usager'])));
 		if($b === false){
 			define("ERROR_AJOUT_ADMIN", "Une erreur c'est produite lors de l'ajout.");
 		} else {

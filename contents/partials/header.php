@@ -35,7 +35,7 @@
 					}
 					?>
 					<li class="dropdown">
-						  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-user aria-hidden="true" style="margin-right: 10px;"></span>Profil<span class="caret"></span></a>
+						  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-user aria-hidden="true" style="margin-right: 10px;"></span><?php echo $_SESSION['usager']; ?><span class="caret"></span></a>
 						  <ul class="dropdown-menu">
 							<li><a href="index.php?context=utilisateur&page=modifier"><span class="glyphicon glyphicon-cog aria-hidden="true" style="margin-right: 10px;"></span>Gérer</a></li>
 							<li role="separator" class="divider"></li>

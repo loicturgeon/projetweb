@@ -1,0 +1,1 @@
+<h1>Contenu de home.php</h1>

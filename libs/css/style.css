@@ -1,5 +1,34 @@
+/*
+ * GENERAL ---------------------------------------------------------------------
+ */
 body {
   padding-top: 50px;
 }
 
+/*
+ * HOME PAGE -------------------------------------------------------------------
+ */
+ .products-list__list_item{
+   text-align: center;
+ }
+.products-list__list_item__image img{
+  max-width: 300px;
+}
+.products-list__list_item__title{
+  font-size: 2rem;
+}
 
+/*
+ * CART PAGE -------------------------------------------------------------------
+ */
+ .cart__list__item__image{
+   text-align: center;
+ }
+ .cart__list__item__image img{
+   max-width: 150px;
+ }
+
+.cart__list__checkout__info{
+  float: right;
+  text-align: right;
+}

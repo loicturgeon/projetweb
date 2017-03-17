@@ -11,13 +11,13 @@
           <a class="navbar-brand" href="index.php?page=home">Le Gros de L'Info</a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
-          
+
           <ul class="nav navbar-nav navbar-right">
-            <li><a href="index.php?page=panier"><span class="glyphicon glyphicon-shopping-cart aria-hidden="true" style="margin-right: 10px;"></span>Panier</a></li>
+            <li><a href="index.php?page=gerer&context=panier"><span class="glyphicon glyphicon-shopping-cart aria-hidden="true" style="margin-right: 10px;"></span>Panier</a></li>
 			<?php
 				if(!isset($_SESSION['id'])){
 					?>
-						
+
 						<li><a href="index.php?page=login&context=account"><span class="glyphicon glyphicon-log-in aria-hidden="true" style="margin-right: 10px;"></span>Se connecter</a></li>
 					<?php
 				} else {
@@ -42,13 +42,12 @@
 							<li><a href="index.php?page=logout&context=account"><span class="glyphicon glyphicon-log-out aria-hidden="true" style="margin-right: 10px;"></span>Se déconnecter</a></li>
 						  </ul>
 						</li>
-						
+
 					<?php
 				}
 			?>
-            
+
           </ul>
         </div><!--/.nav-collapse -->
       </div>
     </nav>
-

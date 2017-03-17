@@ -8,6 +8,24 @@
 			$query = "UPDATE produit SET titre = ?, description = ?, prix = ?, fk_categorieid = ? WHERE id = ?";
 			$statement = $pdo->prepare($query);
 			$b = $statement->execute(array($_POST['titre'], $_POST['description'], $_POST['prix'], $_POST['categorie'], $_POST['id_produit']));
+			if(isset($_FILES['image'])){
+				$allowed =  array('png' ,'jpg', 'jpeg');
+				$filename = $_FILES['image']['name'];
+				$ext = pathinfo($filename, PATHINFO_EXTENSION);
+				if(!in_array($ext,$allowed) || $_FILES["image"]["size"] > 500000) {
+					header("Location: index.php?context=admin_produit&page=gerer");
+					return;
+				}
+				
+				$query = "SELECT id FROM produit ORDER BY id DESC LIMIT 1";
+				$statement = $pdo->prepare($query);
+				$statement->execute();
+				$row = $statement->fetch(PDO::FETCH_ASSOC);
+				
+				$target_dir = ROOT."/libs/images/upload/";
+				$target_file = $target_dir . $_POST['id_produit'] .".".$ext;
+				move_uploaded_file($_FILES["image"]["tmp_name"], $target_file);
+			}
 			header("Location: index.php?context=admin_produit&page=gerer");
 		} catch (PDOException $e){
 			die("Une erreur c'est produite.");

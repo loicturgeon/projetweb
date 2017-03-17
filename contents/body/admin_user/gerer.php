@@ -37,6 +37,18 @@
 						<h3 class="panel-title">Utilisateurs</h3>
 						</div>
 						<div class="col col-xs-6 text-right">
+							<form method="post" action="index.php?page=gerer&context=admin_user" class="search-form" style="margin-bottom:5px;">
+								<div id="custom-search-input">
+									<div class="input-group col-md-12">
+										<input name="input_recherche" type="text" class="form-control input-xs" placeholder="Rechercher" />
+										<span class="input-group-btn">
+											<button class="btn btn-info btn-xs" type="submit">
+												<i class="glyphicon glyphicon-search"></i>
+											</button>
+										</span>
+									</div>
+								</div>
+							</form>
 							<button data-toggle="modal" data-target="#ajouterModal" class="btn btn-primary">Ajouter un utilisateur</button>
 						</div>
 					</div>
@@ -54,9 +66,17 @@
 					<tbody>
 						<?php
 							$pdo = new PDO(CONNECTIONSTRING, USER, PASSWORD);
-							$query = "SELECT id,usager,email,adresse FROM utilisateur WHERE id <> ?";
-							$statement = $pdo->prepare($query);
-							$statement->execute(array($_SESSION['id']));
+							
+							if(isset($_POST['input_recherche']) && !empty($_POST['input_recherche'])){
+								$query = "SELECT id,usager,email,adresse FROM utilisateur WHERE id <> ? AND (usager LIKE ? OR email LIKE ?)";
+								$statement = $pdo->prepare($query);;
+								$statement->execute(array($_SESSION['id'],"%".$_POST['input_recherche']."%","%".$_POST['input_recherche']."%"));
+							} else {
+								$query = "SELECT id,usager,email,adresse FROM utilisateur WHERE id <> ?";
+								$statement = $pdo->prepare($query);
+								$statement->execute(array($_SESSION['id']));
+							}
+							
 							while($row = $statement->fetch(PDO::FETCH_ASSOC)){
 								?>
 									<tr>
@@ -77,23 +97,7 @@
 
 				</div>
 				<div class="panel-footer">
-					<div class="row">
-						<div class="col col-xs-4">Page 1 of 5
-						</div>
-						<div class="col col-xs-8">
-							<ul class="pagination hidden-xs pull-right">
-								<li><a href="#">1</a></li>
-								<li><a href="#">2</a></li>
-								<li><a href="#">3</a></li>
-								<li><a href="#">4</a></li>
-								<li><a href="#">5</a></li>
-							</ul>
-							<ul class="pagination visible-xs pull-right">
-								<li><a href="#">«</a></li>
-								<li><a href="#">»</a></li>
-							</ul>
-						</div>
-					</div>
+					
 				</div>
 			</div>
 		</div>

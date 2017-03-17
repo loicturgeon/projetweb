@@ -20,7 +20,7 @@
                 <div class="panel-title">Modifier le produit</div>
             </div>  
             <div class="panel-body" >
-                    <form  class="form-horizontal" method="post" action="index.php?page=modifier&context=admin_produit">
+                    <form  class="form-horizontal" method="post" action="index.php?page=modifier&context=admin_produit" enctype="multipart/form-data">
                         
                         <div class="form-group required row">
                             <label class="control-label col-md-4 requiredField">Titre<span class="asteriskField">*</span> </label>
@@ -61,7 +61,7 @@
 						<div class="form-group required row">
                             <label class="control-label col-md-4  requiredField">Image<span class="asteriskField">*</span> </label>
                             <div class="controls col-md-8 ">
-								<input type="file" name="imageInput">
+								<input type="file" name="image" />
                             </div>     
                         </div>
 

@@ -19,17 +19,47 @@
 					?>
 					<br/>
 					<div class="alert alert-danger">
-						<strong>Erreur!</strong> <?php echo ERROR_LOGIN; ?>.
+						<strong>Erreur!</strong> <?php echo ERROR_LOGIN; ?>
 					</div>
 					<?php
 				}
-			?>
-			<?php
 				if(defined("REGISTER_SUCCESS")){
 					?>
 					<br/>
 					<div class="alert alert-success">
-					  <strong>Succès</strong> <?php echo REGISTER_SUCCESS; ?>.
+					  <strong>Succès!</strong> <?php echo REGISTER_SUCCESS; ?>
+					</div>
+					<?php
+				}
+				if(defined("ERROR_CONFIRM_EMAIL")){
+					?>
+					<br/>
+					<div class="alert alert-danger">
+					  <strong>Erreur!</strong> <?php echo ERROR_CONFIRM_EMAIL; ?>
+					</div>
+					<?php
+				}
+				if(defined("ERROR_REGISTRATION")){
+					?>
+					<br/>
+					<div class="alert alert-danger">
+					  <strong>Erreur!</strong> <?php echo ERROR_REGISTRATION; ?>
+					</div>
+					<?php
+				}
+				if(defined("ERROR_LINK_EXPIRED")){
+					?>
+					<br/>
+					<div class="alert alert-danger">
+					  <strong>Erreur!</strong> <?php echo ERROR_LINK_EXPIRED; ?>
+					</div>
+					<?php
+				}
+				if(defined("SUCCESS_EMAIL")){
+					?>
+					<br/>
+					<div class="alert alert-success">
+					  <strong>Succès!</strong> <?php echo SUCCESS_EMAIL; ?>
 					</div>
 					<?php
 				}

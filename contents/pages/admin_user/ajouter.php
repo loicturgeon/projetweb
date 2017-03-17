@@ -17,7 +17,7 @@
 		if($b === false){
 			define("ERROR_AJOUT_ADMIN", "Une erreur c'est produite lors de l'ajout.");
 		} else {
-			define("SUCCESS_AJOUT_ADMIN", "L'ajout a été réussi!");
+			define("SUCCESS_AJOUT_ADMIN", "L'ajout a Ã©tÃ© rÃ©ussi!");
 		}
 		Manager::page("gerer", "admin_user");
 		return;

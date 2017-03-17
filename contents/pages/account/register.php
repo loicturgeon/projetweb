@@ -19,11 +19,24 @@
 				if($b === false){
 					define("ERROR_REGISTRATION", "Cet usager existe déjà.");
 				} else {
-					define("REGISTER_SUCCESS", "Votre enregistrement a été fait avec succès. Veuillez confirmer votre email.");
+					$query = "SELECT id,usager FROM utilisateur ORDER BY id DESC LIMIT 1";
+					$statement = $pdo->prepare($query);
+					$statement->execute();
 					
-					$tokenemail = md5($));
-					$contenuEmail = "Bonjour, " . $_POST['user'] . ". Veuillez <a href=''>confirmer votre email ici</a>.";					
-					mail($_POST['email'], "Confirmation - Le gros de l'info", $contenuEmail);
+					$row = $statement->fetch(PDO::FETCH_ASSOC);
+					$tokenemail = md5($row['usager']);
+					$id = $row['id'];
+					
+					$query = "UPDATE utilisateur SET tokenemail = ? WHERE id=?";
+					$statement = $pdo->prepare($query);
+					$bb = $statement->execute(array($tokenemail, $id));
+					if($bb === true){
+						$contenuEmail = "Bonjour, " . $_POST['user'] . ". Veuillez <a href='".$tokenemail."'>confirmer votre email ici</a>.";					
+						//mail($_POST['email'], "Confirmation - Le gros de l'info", $contenuEmail);
+						define("REGISTER_SUCCESS", "Votre enregistrement a été fait avec succès. Veuillez confirmer votre email.");
+					} else {
+						define("ERROR_REGISTRATION", "Impossible de générer votre code pour l'email.");
+					}
 					
 					Manager::page("login", "account");
 					return;

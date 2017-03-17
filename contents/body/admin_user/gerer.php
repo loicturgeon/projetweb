@@ -37,6 +37,18 @@
 						<h3 class="panel-title">Utilisateurs</h3>
 						</div>
 						<div class="col col-xs-6 text-right">
+							<form method="post" action="index.php?page=gerer&context=admin_user" class="search-form" style="margin-bottom:5px;">
+								<div id="custom-search-input">
+									<div class="input-group col-md-12">
+										<input name="input_recherche" type="text" class="form-control input-xs" placeholder="Rechercher" />
+										<span class="input-group-btn">
+											<button class="btn btn-info btn-xs" type="submit">
+												<i class="glyphicon glyphicon-search"></i>
+											</button>
+										</span>
+									</div>
+								</div>
+							</form>
 							<button data-toggle="modal" data-target="#ajouterModal" class="btn btn-primary">Ajouter un utilisateur</button>
 						</div>
 					</div>
@@ -47,8 +59,6 @@
 						<tr>
 							<th>Gestion</th>
 							<th>Usager</th>
-							<th>Nom</th>
-							<th>Prénom</th>
 							<th>Email</th>
 							<th>Adresse</th>
 						</tr> 
@@ -56,9 +66,17 @@
 					<tbody>
 						<?php
 							$pdo = new PDO(CONNECTIONSTRING, USER, PASSWORD);
-							$query = "SELECT id,usager,email,nom,prenom,adresse FROM utilisateur";
-							$statement = $pdo->prepare($query);
-							$statement->execute();
+							
+							if(isset($_POST['input_recherche']) && !empty($_POST['input_recherche'])){
+								$query = "SELECT id,usager,email,adresse FROM utilisateur WHERE id <> ? AND (usager LIKE ? OR email LIKE ?)";
+								$statement = $pdo->prepare($query);;
+								$statement->execute(array($_SESSION['id'],"%".$_POST['input_recherche']."%","%".$_POST['input_recherche']."%"));
+							} else {
+								$query = "SELECT id,usager,email,adresse FROM utilisateur WHERE id <> ?";
+								$statement = $pdo->prepare($query);
+								$statement->execute(array($_SESSION['id']));
+							}
+							
 							while($row = $statement->fetch(PDO::FETCH_ASSOC)){
 								?>
 									<tr>
@@ -67,8 +85,6 @@
 										  <a href="index.php?context=admin_user&page=supprimer&id_user=<?php echo $row['id']; ?>" class="btn btn-danger"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>
 										</td>
 										<td><?php echo $row['usager']; ?></td>
-										<td><?php echo $row['nom']; ?></td>
-										<td><?php echo $row['prenom']; ?></td>
 										<td><?php echo $row['email']; ?></td>
 										<td><?php echo $row['adresse']; ?></td>
 									</tr>
@@ -81,23 +97,7 @@
 
 				</div>
 				<div class="panel-footer">
-					<div class="row">
-						<div class="col col-xs-4">Page 1 of 5
-						</div>
-						<div class="col col-xs-8">
-							<ul class="pagination hidden-xs pull-right">
-								<li><a href="#">1</a></li>
-								<li><a href="#">2</a></li>
-								<li><a href="#">3</a></li>
-								<li><a href="#">4</a></li>
-								<li><a href="#">5</a></li>
-							</ul>
-							<ul class="pagination visible-xs pull-right">
-								<li><a href="#">«</a></li>
-								<li><a href="#">»</a></li>
-							</ul>
-						</div>
-					</div>
+					
 				</div>
 			</div>
 		</div>
@@ -120,6 +120,7 @@
                 <label for="TitreInput">Usager</label>
                 <input name="usager" type="text" class="form-control" placeholder="Usager (pour se connecter)" />
               </div>
+			  
 			  <div class="form-group">
                 <label>Mot de passe</label>
                 <input name="mdp" type="password" class="form-control" placeholder="Mot de passe" />
@@ -129,12 +130,8 @@
                 <input name="mdpverif" type="password" class="form-control" placeholder="Validation du mot de passe">
               </div>
 			  <div class="form-group">
-                <label>Prénom</label>
-                <input name="prenom" type="text" class="form-control" placeholder="Prénom de l'utilisateur" />
-              </div>
-			  <div class="form-group">
-                <label>Nom</label>
-                <input name="nom" type="text" class="form-control" placeholder="Nom de l'utilisateur" />
+                <label for="TitreInput">Email</label>
+                <input name="email" type="text" class="form-control" placeholder="Email" />
               </div>
               <div class="form-group">
                 <label>Adresse</label>

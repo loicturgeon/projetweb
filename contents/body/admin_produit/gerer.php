@@ -20,6 +20,13 @@
 				</div>
 				<?php
 			}
+			if(defined("WARNING_AJOUT_ADMIN")){
+				?>
+				<div class="alert alert-warning">
+				  <strong>Attention!</strong> <?php echo WARNING_AJOUT_ADMIN; ?>
+				</div>
+				<?php
+			}
 		?>
 		<br/>
 		<div class="col-md-10 col-md-offset-1">
@@ -31,6 +38,18 @@
 						<h3 class="panel-title">Produits</h3>
 						</div>
 						<div class="col col-xs-6 text-right">
+							<form method="post" action="index.php?page=gerer&context=admin_produit" class="search-form" style="margin-bottom:5px;">
+								<div id="custom-search-input">
+									<div class="input-group col-md-12">
+										<input name="input_recherche" type="text" class="form-control input-xs" placeholder="Rechercher" />
+										<span class="input-group-btn">
+											<button class="btn btn-info btn-xs" type="submit">
+												<i class="glyphicon glyphicon-search"></i>
+											</button>
+										</span>
+									</div>
+								</div>
+							</form>
 							<button data-toggle="modal" data-target="#ajouterModal" class="btn btn-primary">Ajouter un produit</button>
 						</div>
 					</div>
@@ -49,9 +68,16 @@
 					<tbody>
 						<?php
 							$pdo = new PDO(CONNECTIONSTRING, USER, PASSWORD);
-							$query = "SELECT p.id as id, p.titre as titre, p.prix as prix, c.titre as titrecat, p.description as descr FROM produit p INNER JOIN categorie c ON p.fk_categorieid = c.id ORDER BY p.titre";
-							$statement = $pdo->prepare($query);
-							$statement->execute();
+							if(isset($_POST['input_recherche']) && !empty($_POST['input_recherche'])){
+								$query = "SELECT p.id as id, p.titre as titre, p.prix as prix, c.titre as titrecat, p.description as descr FROM produit p INNER JOIN categorie c ON p.fk_categorieid = c.id WHERE p.titre LIKE ? OR p.description LIKE ? ORDER BY p.titre ";
+								$statement = $pdo->prepare($query);
+								$statement->execute(array("%".$_POST['input_recherche']."%","%".$_POST['input_recherche']."%"));
+							} else {
+								$query = "SELECT p.id as id, p.titre as titre, p.prix as prix, c.titre as titrecat, p.description as descr FROM produit p INNER JOIN categorie c ON p.fk_categorieid = c.id ORDER BY p.titre";
+								$statement = $pdo->prepare($query);
+								$statement->execute();
+							}
+							
 							while($row = $statement->fetch(PDO::FETCH_ASSOC)){
 								?>
 									<tr>
@@ -73,23 +99,6 @@
 
 				</div>
 				<div class="panel-footer">
-					<div class="row">
-						<div class="col col-xs-4">Page 1 of 5
-						</div>
-						<div class="col col-xs-8">
-							<ul class="pagination hidden-xs pull-right">
-								<li><a href="#">1</a></li>
-								<li><a href="#">2</a></li>
-								<li><a href="#">3</a></li>
-								<li><a href="#">4</a></li>
-								<li><a href="#">5</a></li>
-							</ul>
-							<ul class="pagination visible-xs pull-right">
-								<li><a href="#">«</a></li>
-								<li><a href="#">»</a></li>
-							</ul>
-						</div>
-					</div>
 				</div>
 			</div>
 		</div>
@@ -107,7 +116,7 @@
 		<div class="modal-body">
 			
             <!-- content goes here -->
-			<form action="index.php?context=admin_produit&page=ajouter" method="post">
+			<form action="index.php?context=admin_produit&page=ajouter" method="post" enctype="multipart/form-data">
               <div class="form-group">
                 <label for="TitreInput">Titre</label>
                 <input name="titre" type="text" class="form-control" id="TitreInput" placeholder="Titre de votre produit" />
@@ -138,7 +147,7 @@
               </div>
               <div class="form-group">
                 <label for="exampleInputFile">Image</label>
-                <input type="file" id="exampleInputFile">
+                <input type="file" name="image" />
                 <p class="help-block">Ajouter une image de votre produit.</p>
               </div>
 			  <input type="hidden" name="form_ajout_produit_admin">

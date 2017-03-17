@@ -1,6 +1,6 @@
 <div class="container products-list">
   <div class="products-list__title">
-    <h1>Contenu de home.php</h1>
+    <h1>Inventaire</h1>
   </div>
   <div class="products-list__list">
     <div class="row">

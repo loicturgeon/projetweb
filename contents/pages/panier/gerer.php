@@ -2,6 +2,11 @@
 	if(defined("INCLUDE_ONLY") === false){
 		die("Une erreur c'est produite.");
 	}
+	if(!isset($_SESSION['id'])){
+		define("ERROR_MUST_LOGIN", "Vous devez être connecté avant de pouvoir accéder à votre panier.");
+		Manager::page("home");
+		return;
+	}
 ?>
 <html>
 <?php

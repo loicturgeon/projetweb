@@ -1,3 +1,15 @@
+<?php
+	if(defined("ERROR_MUST_LOGIN")){
+		?>
+			<div class="container">
+			<br/>
+			<div class="alert alert-danger">
+			  <strong>Erreur!</strong> <?php echo ERROR_MUST_LOGIN; ?>
+			</div>
+			</div>
+		<?php
+	}
+?>
 <div class="container products-list">
   <div class="products-list__title">
     <h1>Inventaire</h1>

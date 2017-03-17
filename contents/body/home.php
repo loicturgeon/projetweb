@@ -35,9 +35,11 @@
                   <div class="products-list__list_item__price">
                     $<?php echo $row['prix']; ?>
                   </div>
-                  <div class="products-list__list_item__price">
-                    <button class="btn btn-success btn-lg btn-add-to-cart" id="<?php echo $row['id']; ?>">Ajouter au panier</button>
-                  </div>
+									<?php if(isset($_SESSION['id'])){ ?>
+										<div class="products-list__list_item__price">
+											<button class="btn btn-success btn-lg btn-add-to-cart" id="<?php echo $row['id']; ?>">Ajouter au panier</button>
+										</div>
+									<?php } ?>
                 </div>
               </div>
           <?php

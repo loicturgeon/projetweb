@@ -35,6 +35,10 @@
 						Manager::page("gerer", "admin_produit");
 						return;
 					}
+					$pdo = new PDO(CONNECTIONSTRING, USER, PASSWORD);
+					$query = "UPDATE produit SET image = ? ORDER BY id DESC LIMIT 1";
+					$statement = $pdo->prepare($query);
+					$statement->execute(array(LIBS."/libs/images/upload/".$row['id'].".".$ext));
 				} else {
 					define("WARNING_AJOUT_ADMIN", "Vous n'avez pas choisi d'image. Une image par défaut sera utilisé.");
 				}

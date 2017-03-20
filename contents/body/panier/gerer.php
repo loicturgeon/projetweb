@@ -16,7 +16,7 @@
       <tbody>
         <?php
           $pdo = new PDO(CONNECTIONSTRING, USER, PASSWORD);
-          $query = "SELECT pa.id as id, pa.qte as qte, pr.titre as titre, pr.prix as prix, pr.id as idpro FROM panier as pa INNER JOIN produit as pr ON pa.fk_produitid = pr.id WHERE pa.fk_utilisateurid = ? ORDER BY pr.titre";
+          $query = "SELECT pa.id as id, pa.qte as qte, pr.titre as titre, pr.prix as prix, pr.id as idpro, pr.image as image2 FROM panier as pa INNER JOIN produit as pr ON pa.fk_produitid = pr.id WHERE pa.fk_utilisateurid = ? ORDER BY pr.titre";
           $statement = $pdo->prepare($query);
           $statement->execute(array($_SESSION['id']));
           while($row = $statement->fetch(PDO::FETCH_ASSOC)){
@@ -28,21 +28,15 @@
                 <td>
                   <div class="cart__list__item__image">
                     <?php
-						$image = "";
-						$arr = array(LIBS."/libs/images/upload/".$row['idpro'].".jpg"=>ROOT."/libs/images/upload/".$row['idpro'].".jpg", LIBS."/libs/images/upload/".$row['idpro'].".jpeg"=>ROOT."/libs/images/upload/".$row['idpro'].".jpeg", LIBS."/libs/images/upload/".$row['idpro'].".png"=>ROOT."/libs/images/upload/".$row['idpro'].".png");
-						foreach($arr as $key=>$value){
 
-							if(file_exists($value)){
-								$image = $key;
-							}
-						}
-						if($image === ""){
+						
+						if($row['image2'] === null){
 							?>
 								<img width="100" height="100" src="<?php echo LIBS."/libs/images/default.jpg"; ?>">
 							<?php
 						} else {
 							?>
-								<img width="100" height="100" src="<?php echo $image; ?>">
+								<img width="100" height="100" src="<?php echo $row['image2']; ?>">
 							<?php
 						}
 					?>
@@ -63,7 +57,20 @@
         <div class="cart__list__checkout__info__total">
           <h3 class="cart__list__checkout__info__total__price">...</h3>
         </div>
-        <button type="button" class="btn btn-success btn-lg cart__list__checkout__info__total__btn-checkout">Acheter &raquo;</button>
+		<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+		<input type="hidden" name="cmd" value="_xclick">
+		<input type="hidden" name="business" value="locturgeon@gmail.com">
+		<input type="hidden" name="lc" value="CA">
+		<input type="hidden" name="item_name" value="Montant">
+		<input type="hidden" name="item_number" value="1234">
+		<input id="paypalvalue" type="hidden" name="amount" value="400">
+		<input type="hidden" name="currency_code" value="CAD">
+		<input type="hidden" name="button_subtype" value="services">
+		<input type="hidden" name="no_note" value="0">
+		<input type="hidden" name="bn" value="PP-BuyNowBF:btn_buynowCC_LG.gif:NonHostedGuest">
+		<input type="image" src="https://www.paypalobjects.com/fr_CA/i/btn/btn_buynowCC_LG.gif" border="0" name="submit" alt="PayPal - la solution de paiement en ligne la plus simple et la plus sécurisée !">
+		<img alt="" border="0" src="https://www.paypalobjects.com/fr_CA/i/scr/pixel.gif" width="1" height="1">
+		</form>
       </div>
     </div>
   </div> <!-- .cart__list -->
@@ -120,9 +127,12 @@
         //majQtePanier();
 
         total += prixParItem * qte;
+		
       });
 
-      $(".cart__list__checkout__info__total__price").text("Total: $" + Math.round(total * 100) / 100);
+		$("#paypalvalue").val(Math.round(total * 100) / 100);
+        $(".cart__list__checkout__info__total__price").text("Total: $" + Math.round(total * 100) / 100);
+
     }
 
     $(".cart__list__item__qty").change(function() {

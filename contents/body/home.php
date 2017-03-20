@@ -47,7 +47,26 @@
               <div class="col-md-4">
                 <div class="products-list__list_item">
                   <div class="products-list__list_item__image">
-                    <img src="https://fthmb.tqn.com/aG_csasiSllxQJt2CmM011UBbCE=/768x0/filters:no_upscale()/about/hp-computer-on-off-56a6f9e85f9b58b7d0e5cc8b.jpg">
+					<?php
+						$image = "";
+						$arr = array(LIBS."/libs/images/upload/".$row['id'].".jpg"=>ROOT."/libs/images/upload/".$row['id'].".jpg", LIBS."/libs/images/upload/".$row['id'].".jpeg"=>ROOT."/libs/images/upload/".$row['id'].".jpeg", LIBS."/libs/images/upload/".$row['id'].".png"=>ROOT."/libs/images/upload/".$row['id'].".png");
+						foreach($arr as $key=>$value){
+							
+							if(file_exists($value)){
+								$image = $key;
+							}
+						}
+						if($image === ""){
+							?>
+								<img width="200" height="200" src="<?php echo LIBS."/libs/images/default.jpg"; ?>">
+							<?php
+						} else {
+							?>
+								<img width="200" height="200" src="<?php echo $image; ?>">
+							<?php
+						}
+					?>
+                    
                   </div>
                   <div class="products-list__list_item__title">
                     <a href="#"><?php echo $row['titre']; ?></a>

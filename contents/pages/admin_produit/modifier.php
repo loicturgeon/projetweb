@@ -24,6 +24,12 @@
 				
 				$target_dir = ROOT."/libs/images/upload/";
 				$target_file = $target_dir . $_POST['id_produit'] .".".$ext;
+				
+				if(file_exists($target_dir.$_POST['id_produit'].".jpg")) {unlink($target_dir.$_POST['id_produit'].".jpg");}
+				if(file_exists($target_dir.$_POST['id_produit'].".jpeg")) {unlink($target_dir.$_POST['id_produit'].".jpeg");}
+				if(file_exists($target_dir.$_POST['id_produit'].".png")) {unlink($target_dir.$_POST['id_produit'].".png");}
+				
+				
 				move_uploaded_file($_FILES["image"]["tmp_name"], $target_file);
 			}
 			header("Location: index.php?context=admin_produit&page=gerer");

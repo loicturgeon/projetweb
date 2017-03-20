@@ -24,6 +24,7 @@
 				$_SESSION['email'] = $row['email'];
 				$_SESSION['adresse'] = $row['adresse'];
 				$_SESSION['typeusager'] = $row['typeusager'];
+				setcookie("USER_EQUIPE6H17", $row['usager'], time()+86400);
 				header("Location: index.php");
 			}
 		} catch(PDOException $e){

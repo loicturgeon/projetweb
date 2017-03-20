@@ -16,7 +16,7 @@
       <tbody>
         <?php
           $pdo = new PDO(CONNECTIONSTRING, USER, PASSWORD);
-          $query = "SELECT pa.id as id, pa.qte as qte, pr.titre as titre, pr.prix as prix FROM panier as pa INNER JOIN produit as pr ON pa.fk_produitid = pr.id WHERE pa.fk_utilisateurid = ? ORDER BY pr.titre";
+          $query = "SELECT pa.id as id, pa.qte as qte, pr.titre as titre, pr.prix as prix, pr.id as idpro FROM panier as pa INNER JOIN produit as pr ON pa.fk_produitid = pr.id WHERE pa.fk_utilisateurid = ? ORDER BY pr.titre";
           $statement = $pdo->prepare($query);
           $statement->execute(array($_SESSION['id']));
           while($row = $statement->fetch(PDO::FETCH_ASSOC)){
@@ -27,7 +27,25 @@
                 </td>
                 <td>
                   <div class="cart__list__item__image">
-                    <img src="https://fthmb.tqn.com/aG_csasiSllxQJt2CmM011UBbCE=/768x0/filters:no_upscale()/about/hp-computer-on-off-56a6f9e85f9b58b7d0e5cc8b.jpg">
+                    <?php
+						$image = "";
+						$arr = array(LIBS."/libs/images/upload/".$row['idpro'].".jpg"=>ROOT."/libs/images/upload/".$row['idpro'].".jpg", LIBS."/libs/images/upload/".$row['idpro'].".jpeg"=>ROOT."/libs/images/upload/".$row['idpro'].".jpeg", LIBS."/libs/images/upload/".$row['idpro'].".png"=>ROOT."/libs/images/upload/".$row['idpro'].".png");
+						foreach($arr as $key=>$value){
+							
+							if(file_exists($value)){
+								$image = $key;
+							}
+						}
+						if($image === ""){
+							?>
+								<img width="100" height="100" src="<?php echo LIBS."/libs/images/default.jpg"; ?>">
+							<?php
+						} else {
+							?>
+								<img width="100" height="100" src="<?php echo $image; ?>">
+							<?php
+						}
+					?>
                   </div>
                 </td>
                 <td><?php echo $row['titre']; ?></td>

@@ -31,8 +31,13 @@
 					$statement = $pdo->prepare($query);
 					$bb = $statement->execute(array($tokenemail, $id));
 					if($bb === true){
-						$contenuEmail = "Bonjour, " . $_POST['user'] . ". Veuillez <a href='".$tokenemail."'>confirmer votre email ici</a>.";					
-						//mail($_POST['email'], "Confirmation - Le gros de l'info", $contenuEmail);
+						$sujet = 'Confirmation de votre email';
+						$destinataire = $_POST['email'];
+						$headers = "From: \"LeGros\"<legros@legros.com>\n";
+						$headers .= "Reply-To: legros@legros.com\n";
+						$headers .= "Content-Type: text/html; charset=\"iso-8859-1\"";
+						$contenuEmail = "Bonjour, " . $_POST['user'] . ". Veuillez <a href='".$_SERVER['HTTP_HOST'].LIBS."/index.php?page=confirm&context=email&token=".$tokenemail."&usager=".$_POST['user']."'>confirmer votre email ici</a>.";					
+						mail($destinataire,$sujet,$contenuEmail,$headers);
 						define("REGISTER_SUCCESS", "Votre enregistrement a été fait avec succès. Veuillez confirmer votre email.");
 					} else {
 						define("ERROR_REGISTRATION", "Impossible de générer votre code pour l'email.");

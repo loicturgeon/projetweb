@@ -13,7 +13,7 @@
 		if($statement->rowCount() === 0){
 			define("ERROR_LINK_EXPIRED", "Votre lien n'est pas ou n'est plus valide.");
 		} else {
-			define("SUCCESS_EMAIL", "Vous pouvez maintenant accéder à votre profil.");
+			define("SUCCESS_EMAIL", "Vous pouvez maintenant accÃ©der Ã  votre profil.");
 		}
 		Manager::page("login", "account");
 	} catch(PDOException $e){

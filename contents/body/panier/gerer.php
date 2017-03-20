@@ -50,7 +50,7 @@
                 </td>
                 <td><?php echo $row['titre']; ?></td>
                 <td>
-                  <input type="number" class="form-control cart__list__item__qty" value="<?php echo $row['qte']; ?>"></td>
+                  <input type="number" class="form-control cart__list__item__qty" min="1" value="<?php echo $row['qte']; ?>"></td>
                 <td class="cart__list__item__prix"><?php echo $row['prix']; ?></td>
               </tr>
             <?php

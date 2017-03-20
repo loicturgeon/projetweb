@@ -96,8 +96,6 @@
                 '<strong>Échec!</strong> La quantité n\'a pu être mise à jour.' +
               '</div>'
             );
-          }else{
-            alert();
           }
 
           setTimeout(deleteAlerts, 2000);
@@ -138,10 +136,6 @@
     $(".cart__list__item__qty").change(function() {
       calculerTotal();
       majQtePanier($(this));
-    });
-
-    $(".cart__list__checkout__info__total__btn-checkout").click(function(){
-      alert();
     });
 
     $(".btn-delete-from-cart").click(function(e){

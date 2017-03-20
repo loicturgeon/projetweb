@@ -15,7 +15,7 @@
     }
 
     $pdo = new PDO(CONNECTIONSTRING, USER, PASSWORD);
-    $query = "SELECT p.id as id, p.titre as titre, p.prix as prix, c.titre as titrecat, p.description as descr FROM produit p INNER JOIN categorie c ON p.fk_categorieid = c.id " . $condition . " ORDER BY p.titre";
+    $query = "SELECT p.id as id, p.titre as titre, p.prix as prix, c.titre as titrecat, p.description as descr, p.image as image FROM produit p INNER JOIN categorie c ON p.fk_categorieid = c.id " . $condition . " ORDER BY p.titre";
     $statement = $pdo->prepare($query);
     $statement->execute();
 

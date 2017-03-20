@@ -20,6 +20,7 @@ CREATE TABLE produit(
     description TEXT CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
     prix FLOAT NOT NULL,
     fk_categorieid INT NOT NULL,
+	image VARCHAR(255) CHARACTER SET utf8 COLLATE utf8_general_ci,
 	FOREIGN KEY (fk_categorieid) REFERENCES categorie(id)
 ) ENGINE=INNODB CHARACTER SET utf8 COLLATE utf8_general_ci;
 
@@ -39,12 +40,5 @@ CREATE TABLE logachat(
     fk_utilisateurid INT NOT NULL,
     dateachat DATETIME NOT NULL,
 	FOREIGN KEY (fk_utilisateurid) REFERENCES utilisateur(id),
-	FOREIGN KEY (fk_produitid) REFERENCES produit(id)
-) ENGINE=INNODB CHARACTER SET utf8 COLLATE utf8_general_ci;
-
-CREATE TABLE image(
-	id INT PRIMARY KEY AUTO_INCREMENT,
-	nom VARCHAR(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-	fk_produitid INT NOT NULL,
 	FOREIGN KEY (fk_produitid) REFERENCES produit(id)
 ) ENGINE=INNODB CHARACTER SET utf8 COLLATE utf8_general_ci;

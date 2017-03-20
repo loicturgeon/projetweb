@@ -17,11 +17,6 @@
 					return;
 				}
 				
-				$query = "SELECT id FROM produit ORDER BY id DESC LIMIT 1";
-				$statement = $pdo->prepare($query);
-				$statement->execute();
-				$row = $statement->fetch(PDO::FETCH_ASSOC);
-				
 				$target_dir = ROOT."/libs/images/upload/";
 				$target_file = $target_dir . $_POST['id_produit'] .".".$ext;
 				
@@ -32,6 +27,9 @@
 				
 				move_uploaded_file($_FILES["image"]["tmp_name"], $target_file);
 			}
+			$query = "UPDATE produit SET image = ? WHERE id = ?";
+			$statement = $pdo->prepare($query);
+			$statement->execute(array(LIBS."/libs/images/upload/".$_POST['id_produit'].".".$ext, $_POST['id_produit']));
 			header("Location: index.php?context=admin_produit&page=gerer");
 		} catch (PDOException $e){
 			die("Une erreur c'est produite.");

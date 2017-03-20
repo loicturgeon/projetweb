@@ -2,18 +2,6 @@
   if(isset($_SESSION['id'])){
     if(isset($_POST['qte']) || isset($_POST['fk_produitid'])){
       $pdo = new PDO(CONNECTIONSTRING, USER, PASSWORD);
-
-      //sans vérification -- FONCTIONNE
-      /*$query = "INSERT INTO panier (qte, fk_produitid, fk_utilisateurid) VALUES (?,?,?)";
-      $statement = $pdo->prepare($query);
-      $b = $statement->execute(array($_POST['qte'], $_POST['fk_produitid'], $_SESSION['id']));
-      if($b === false){
-        echo "echec";
-      } else {
-        echo "succes";
-      }*/
-
-      //avec vérification si l'item est déjà dans son panier  -- NE FONCTIONNE PAS
       $query = "SELECT pa.id as id FROM panier as pa INNER JOIN produit as pr ON pa.fk_produitid = pr.id WHERE pa.fk_utilisateurid = ? and pa.fk_produitid = ?";
       $statement = $pdo->prepare($query);
   		$b = $statement->execute(array($_SESSION['id'], $_POST['fk_produitid']));

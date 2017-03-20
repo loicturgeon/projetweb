@@ -28,6 +28,7 @@
                 <td>
                   <div class="cart__list__item__image">
                     <?php
+
 						
 						if($row['image2'] === null){
 							?>
@@ -43,7 +44,7 @@
                 </td>
                 <td><?php echo $row['titre']; ?></td>
                 <td>
-                  <input type="number" class="form-control cart__list__item__qty" min="1" value="<?php echo $row['qte']; ?>"></td>
+                  <input type="number" class="form-control cart__list__item__qty" min="1" id="<?php echo $row['id']; ?>" value="<?php echo $row['qte']; ?>"></td>
                 <td class="cart__list__item__prix"><?php echo $row['prix']; ?></td>
               </tr>
             <?php
@@ -77,6 +78,33 @@
 
 <script type="text/javascript">
   $(document).ready(function(){
+    function majQtePanier(input){
+      var id = input.attr("id");
+      var qte = input.val();
+
+      $.ajax({
+        url: "index.php?page=majQte&context=panier",
+        type: 'post',
+        data: {
+          produitId: id,
+          qte: qte
+        },
+        success: function(result) {
+          if(result === "echec"){
+            $(".cart__list").prepend(
+              '<div class="alert alert-danger">' +
+                '<strong>Échec!</strong> La quantité n\'a pu être mise à jour.' +
+              '</div>'
+            );
+          }else{
+            alert();
+          }
+
+          setTimeout(deleteAlerts, 2000);
+        }
+      });
+
+    }
     function deleteAlerts(){
       $(".alert").remove();
     }
@@ -84,19 +112,32 @@
       var total = 0;
       var prixParItem = 0;
       var qte = 0;
+      var id = 0;
+
       $(".cart__list__item").each(function(){
         prixParItem = parseFloat($(this).find(".cart__list__item__prix").text());
         qte = parseFloat($(this).find(".cart__list__item__qty").val());
 
+
+        if(qte <= 0){
+          $(this).find(".cart__list__item__qty").val("1");
+          qte = parseFloat($(this).find(".cart__list__item__qty").val());
+        }
+
+        //majQtePanier();
+
         total += prixParItem * qte;
 		
       });
+
 		$("#paypalvalue").val(Math.round(total * 100) / 100);
         $(".cart__list__checkout__info__total__price").text("Total: $" + Math.round(total * 100) / 100);
+
     }
 
     $(".cart__list__item__qty").change(function() {
       calculerTotal();
+      majQtePanier($(this));
     });
 
     $(".cart__list__checkout__info__total__btn-checkout").click(function(){

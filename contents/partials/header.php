@@ -11,8 +11,17 @@
           <a class="navbar-brand" href="index.php?page=home">Le Gros de L'Info</a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
-
+		  <ul class="nav navbar-nav">
+            <li><a href="index.php?page=entreprise">À propos</a></li>
+          </ul>
           <ul class="nav navbar-nav navbar-right">
+			<?php 
+				if(isset($_COOKIE['USER_EQUIPE6H17'])){
+					?>
+							<p class="navbar-text">Bonjour <?php echo $_COOKIE['USER_EQUIPE6H17']; ?></p>
+					<?php
+				}
+			?>
             <li><a href="index.php?page=gerer&context=panier"><span class="glyphicon glyphicon-shopping-cart aria-hidden="true" style="margin-right: 10px;"></span>Panier</a></li>
 			<?php
 				if(!isset($_SESSION['id'])){
